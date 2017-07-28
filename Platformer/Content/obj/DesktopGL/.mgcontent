@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_idle_r.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_death_r.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_hurt_r.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_walk_r.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_attack_r.png</File>
+  </SourceFiles>
+</SourceFileCollection>

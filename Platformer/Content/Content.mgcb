@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin squeleton/spritesheet_attack.png
+#begin skeleton/spritesheet_idle_r.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +23,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:squeleton/spritesheet_attack.png
+/build:skeleton/spritesheet_idle_r.png
 
-#begin squeleton/spritesheet_death.png
+#begin skeleton/spritesheet_death_r.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,9 +35,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:squeleton/spritesheet_death.png
+/build:skeleton/spritesheet_death_r.png
 
-#begin squeleton/spritesheet_hurt.png
+#begin skeleton/spritesheet_hurt_r.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,9 +47,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:squeleton/spritesheet_hurt.png
+/build:skeleton/spritesheet_hurt_r.png
 
-#begin squeleton/spritesheet_idle.png
+#begin skeleton/spritesheet_walk_r.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,9 +59,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:squeleton/spritesheet_idle.png
+/build:skeleton/spritesheet_walk_r.png
 
-#begin squeleton/spritesheet_walk.png
+#begin skeleton/spritesheet_attack_r.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,5 +71,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:squeleton/spritesheet_walk.png
+/build:skeleton/spritesheet_attack_r.png
 

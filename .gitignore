@@ -1,2 +1,6 @@
 
 /.idea/
+/Platformer/bin/DesktopGL/AnyCPU/Debug/
+/Platformer/obj/Debug/
+/Platformer/Content/skeleton/spritesheet_idle.png
+/Platformer/anozer/dmn/OLD_Perso.cs

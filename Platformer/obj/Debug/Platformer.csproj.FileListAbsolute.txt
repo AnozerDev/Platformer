@@ -17,3 +17,8 @@
 /home/dinkyd/lab/cSharp/platformer/Platformer/obj/Debug/Platformer.csproj.CoreCompileInputs.cache
 /home/dinkyd/lab/cSharp/platformer/Platformer/obj/Debug/Platformer.exe
 /home/dinkyd/lab/cSharp/platformer/Platformer/obj/Debug/Platformer.pdb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/skeleton/spritesheet_idle_r.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/skeleton/spritesheet_attack_r.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/skeleton/spritesheet_death_r.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/skeleton/spritesheet_hurt_r.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/skeleton/spritesheet_walk_r.xnb

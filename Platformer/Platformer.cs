@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platformer.anozer.dmn;
 
 namespace Platformer
 {
@@ -11,10 +14,19 @@ namespace Platformer
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        public const int WINDOW_WIDTH = 800;
+        public const int WINDOW_HEIGHT = 600;
+
+        private Perso perso;
         
         public Platformer()
         {
             graphics = new GraphicsDeviceManager(this);
+            
+            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            
             Content.RootDirectory = "Content";
         }
 
@@ -28,6 +40,7 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
 
+           
             base.Initialize();
         }
 
@@ -41,6 +54,11 @@ namespace Platformer
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
+            perso = new Perso();
+            perso.load(Content, new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2));
+            //OLD perso.load(Content, new Vector2(50, 50));
+
         }
 
         /// <summary>
@@ -63,6 +81,9 @@ namespace Platformer
                 Exit();
 
             // TODO: Add your update logic here
+            
+           //OLD perso.update(gameTime, Perso.PersoState.IDLE);
+            perso.update(Mouse.GetState(), Keyboard.GetState(), gameTime);
 
             base.Update(gameTime);
         }
@@ -76,6 +97,13 @@ namespace Platformer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            
+            //Draw le skeleton
+            spriteBatch.Begin();
+            
+            perso.draw(spriteBatch);
+            
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
