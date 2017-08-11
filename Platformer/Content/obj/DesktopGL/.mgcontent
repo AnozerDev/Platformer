@@ -9,5 +9,7 @@
     <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_hurt_r.png</File>
     <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_walk_r.png</File>
     <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_attack_r.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/tilesets/tiles.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/fonts/debugFont.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

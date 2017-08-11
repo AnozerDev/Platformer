@@ -1,9 +1,8 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Platformer.anozer.dmn;
+using TiledSharp;
 
 namespace Platformer
 {
@@ -12,6 +11,8 @@ namespace Platformer
     /// </summary>
     public class Platformer : Game
     {
+        public static bool DEBUG = true;
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -19,6 +20,15 @@ namespace Platformer
         public const int WINDOW_HEIGHT = 600;
 
         private Perso perso;
+
+        private TmxMap map;
+        private Texture2D tileset;
+        private int tileWidth, tileHeigth;
+        private int mapWidth;
+        private int tilesetColumnsCount;
+
+        private Level level;
+        private Ath ath;
         
         public Platformer()
         {
@@ -59,6 +69,10 @@ namespace Platformer
             perso.load(Content, new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2));
             //OLD perso.load(Content, new Vector2(50, 50));
 
+            level = new Level(Content,"Content/map/map_1.tmx","tilesets/","tiles");
+
+            ath = new Ath(DEBUG);
+            ath.load(Content, "fonts/");
         }
 
         /// <summary>
@@ -82,9 +96,15 @@ namespace Platformer
 
             // TODO: Add your update logic here
             
-           //OLD perso.update(gameTime, Perso.PersoState.IDLE);
             perso.update(Mouse.GetState(), Keyboard.GetState(), gameTime);
-
+            level.update(perso.positionPropertie, perso.bottomRightPosition, perso.directionPropertie);
+            if (level.hasCollidedFloor || level.hasCollidedWall)
+            {
+                perso.returnOldPos(level.collideType, level.hasCollidedWall);
+            }
+            
+            
+            ath.update(perso, level);
             base.Update(gameTime);
         }
 
@@ -94,14 +114,17 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkSlateGray);
 
             // TODO: Add your drawing code here
             
             //Draw le skeleton
             spriteBatch.Begin();
             
+            level.draw(spriteBatch);
             perso.draw(spriteBatch);
+            
+            ath.draw(spriteBatch);
             
             spriteBatch.End();
 
