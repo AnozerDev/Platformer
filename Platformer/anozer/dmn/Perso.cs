@@ -6,15 +6,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.anozer.dmn
 {
-    enum PersoState
+ /*   enum PersoState
     {
-        IDLE , WALK, JUMP, FALL, SLIP
+        IDLE , WALK, JUMP, FALL, SLIP, DEAD
     }
-
     public enum Direction
     {
         RIGHT, LEFT
     }
+*/
 
     public class Perso
     {
@@ -49,8 +49,6 @@ namespace Platformer.anozer.dmn
         public Vector2 bottomRightPosition => new Vector2(rightPosition,feetPosition);
 
         private Vector2 oldPos;
-        // Pour ne faire la sauvgarde de l' oldPos qu' une fois sur deux
-        private bool halfUpdate = true; // vraiment pas mieux ?
         
         private float moveSpeed = 160f; 
         private float gravity = 0.1f;
@@ -65,6 +63,10 @@ namespace Platformer.anozer.dmn
         
         private bool isJumping = false;
         public bool isJumpingPropertie => isJumping;
+
+        public bool isDead => state == PersoState.DEAD;
+        private Vector2 deathPosition;
+        public Vector2 getDeathPosition => deathPosition;
 
         private Texture2D textureToDraw;
         private Rectangle[] framesToAnime;
@@ -118,7 +120,10 @@ namespace Platformer.anozer.dmn
                     case PersoState.SLIP:
                         state = PersoState.SLIP;
                         break;
-                        
+                    
+                    case PersoState.DEAD:
+                        state = PersoState.DEAD;
+                        break;
                         
                         
                     default:
@@ -204,8 +209,17 @@ namespace Platformer.anozer.dmn
             velocity.Y = -3.8f;
         }
 
+        private void dies()
+        {
+            deathPosition = position;
+            
+            velocity.Y = -9f;
+            changeState(PersoState.DEAD);
+        }
+
         public bool isCollide()
         {
+            //TODO
             return false;
         }
 
@@ -223,6 +237,8 @@ namespace Platformer.anozer.dmn
         //TODO "collided(CollideType, CollidePosition)" plutot 
         public void returnOldPos(Level.CollideType collideType, bool collidedWall) // TODO plutot qu' un type de collision, c' serait pas mieux la position du collide ?!?
         {
+            if (state == PersoState.DEAD) return;
+            
             if (collidedWall)
             {
                 position.X = oldPos.X;
@@ -247,16 +263,21 @@ namespace Platformer.anozer.dmn
                     else
                     {
                         position.Y = oldPos.Y;
-                        break;
                     }
                     break;
                     
                 case Level.CollideType.DESCENT_LEFT:
                     slip(Direction.LEFT, deltaTime);
                     break;
+                
                 case Level.CollideType.DESCENT_RIGHT:
                     slip(Direction.RIGHT, deltaTime);
                     break;
+                
+                case Level.CollideType.DEADLY:
+                    dies();
+                    break;
+                
                 default:
                     position = oldPos;
                     break;
@@ -275,70 +296,75 @@ namespace Platformer.anozer.dmn
             velocity.Y += gravity;
             //velocity.X += friction;
             position += velocity;
-            
-            // Chute si trop grande marge entre les deux positions
-            //Pas utile de verifier si dejà idle ?
-            if (state != PersoState.IDLE)
+
+            if (!isDead)
             {
-                
-                if ( state != PersoState.SLIP && velocity.Y > 0 && Math.Abs(position.Y - oldPos.Y) > 1.22)
+                // Chute si trop grande marge entre les deux positions
+                //Pas utile de verifier si dejà idle ?
+                if (state != PersoState.IDLE)
                 {
+
+                    if (state != PersoState.SLIP && velocity.Y > 0 
+                        && Math.Abs(position.Y - oldPos.Y) > 1.22)
+                    {
+                        isJumping = false;
+                        changeState(PersoState.FALL);
+                    }
+                }
+
+                /*
+                *--------    INPUTS TODO depuis quand c' est le perso qui ecoute les inputs ??
+                */
+                // TODO utiliser la velocity x plutot que de modifier directement la position !!
+                if (keyboard.IsKeyDown(Keys.Left))
+                {
+                    changeState(PersoState.WALK);
+                    spriteEffect = SpriteEffects.FlipHorizontally;
+
+                    position.X -= moveSpeed * Convert.ToSingle(deltaTime);
+                    directionPropertie = Direction.LEFT;
+                }
+                else if (keyboard.IsKeyDown(Keys.Right))
+                {
+                    changeState(PersoState.WALK);
+                    spriteEffect = SpriteEffects.None;
+
+                    position.X += moveSpeed * Convert.ToSingle(deltaTime);
+                    directionPropertie = Direction.RIGHT;
+
+                }
+                else
+                {
+                    if (state != PersoState.IDLE && state != PersoState.FALL && state != PersoState.JUMP)
+                    {
+                        changeState(PersoState.IDLE);
+                    }
+                }
+
+                //TODO remplacé par le collideType
+                //TODO pas utile de conserver le floorY du coup ??
+                /*if (floorY != -1 && floorY < position.Y + framesToAnime[currentFrameID].Height * scale.Y)
+                {
+                    velocity.Y = 0;
+                    position.Y = floorY - framesToAnime[currentFrameID].Height * scale.Y;
                     isJumping = false;
-                    changeState(PersoState.FALL);
-                }
-            }
-            
-            /*
-            *--------    INPUTS TODO depuis quand c' est le perso qui ecoute les inputs ??
-            */
-            // TODO utiliser la velocity x plutot que de modifier directement la position !!
-            if (keyboard.IsKeyDown(Keys.Left))
-            {
-                changeState(PersoState.WALK);
-                spriteEffect = SpriteEffects.FlipHorizontally;
+                }*/
 
-                position.X -= moveSpeed * Convert.ToSingle(deltaTime);
-                directionPropertie = Direction.LEFT;
-            }
-            else if (keyboard.IsKeyDown(Keys.Right))
-            {
-                changeState(PersoState.WALK);
-                spriteEffect = SpriteEffects.None;
 
-                position.X += moveSpeed * Convert.ToSingle(deltaTime);
-                directionPropertie = Direction.RIGHT;
-
-            }
-            else
-            {
-                if ( state != PersoState.IDLE && state != PersoState.FALL && state != PersoState.JUMP)
+                if (state != PersoState.FALL && !isJumping && keyboard.IsKeyDown(Keys.Space))
                 {
-                    changeState(PersoState.IDLE);
+                    changeState(PersoState.JUMP);
+                    jump();
                 }
+                /*
+                TODO creer un arret dans les slide si on ne bouge pas.. 'fin des fois.. choper un autre moyen pour regul la velocity
+                TODO mais sans la velocity.Y ne fait qu' augmenter, et l' on se retrouve sous le sol en sautant !
+                if (state == PersoState.IDLE)
+                {
+                    velocity = Vector2.Zero;
+                }*/
             }
-
-            //TODO remplacé par le collideType
-            //TODO pas utile de conserver le floorY du coup ??
-            /*if (floorY != -1 && floorY < position.Y + framesToAnime[currentFrameID].Height * scale.Y)
-            {
-                velocity.Y = 0;
-                position.Y = floorY - framesToAnime[currentFrameID].Height * scale.Y;
-                isJumping = false;
-            }*/
- 
-
-            if (state != PersoState.FALL && !isJumping && keyboard.IsKeyDown(Keys.Space))
-            {
-                changeState(PersoState.JUMP);
-                jump();
-            }
-            /*
-            TODO creer un arret dans les slide si on ne bouge pas.. 'fin des fois.. choper un autre moyen pour regul la velocity
-            TODO mais sans la velocity.Y ne fait qu' augmenter, et l' on se retrouve sous le sol en sautant !
-            if (state == PersoState.IDLE)
-            {
-                velocity = Vector2.Zero;
-            }*/
+             
 
 //Console.WriteLine("{0}, {1}..{2}  velo == {3} // {4}",state, position, oldPos, velocity, isJumping);
 

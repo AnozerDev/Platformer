@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Platformer.anozer.dmn.enemies;
 using TiledSharp;
 
 namespace Platformer.anozer.dmn
@@ -20,7 +21,11 @@ namespace Platformer.anozer.dmn
     public class Level
     {
         private TmxMap map;
+        //nombre de tuiles sur la largeur
         private int mapWidth;
+        //Height & width en pixel
+        private Vector2 mapDimension;
+        public Vector2 getMapDimensions => mapDimension;
 
         private Texture2D tileset;
         private int tilesetColumnsCount;
@@ -29,21 +34,28 @@ namespace Platformer.anozer.dmn
 
         private Dictionary<int, String> terrainsTypes;
         private Dictionary<Vector2, int> terrainTiles;
+        
+        public Vector2 playerStartPosition { get; private set; }
+        private List<Enemy> _enemies = new List<Enemy>();
 
         public bool hasCollidedFloor { get; private set; }
         public bool hasCollidedWall { get; private set; }
-
+        
+        public float gravity { get; private set; }
+        public float friction { get; private set; }
+        
         public enum CollideType
         {
             NONE,
             BOTTOM,
             DESCENT_LEFT,
             DESCENT_RIGHT,
-            WALL
+            WALL,
+            DEADLY
         }
         public CollideType collideType { get; private set; }
 
-        public Level(ContentManager contentMgr, String mapPath, String tilesetsRoot, String tilesetName)
+        public Level(ContentManager contentMgr, string mapPath, string tilesetsRoot, string tilesetName)
         {
             map = new TmxMap(mapPath);
             mapWidth = map.Width;
@@ -54,12 +66,36 @@ namespace Platformer.anozer.dmn
             tilesWidth = map.TileWidth;
             tilesHeight = map.TileHeight;
             
+            mapDimension = new Vector2(map.Width*tilesWidth, map.Height*tilesHeight); //TODO un peu redondant avec mapWidth nan ?
+
+    /*wtf        foreach (var property in map.Properties)
+            {
+                Console.WriteLine(property.Key);
+                Console.WriteLine(double.Parse(property.Value.Trim()));
+            }
+    */      gravity = 0.17f;//TODO Convert.ToSingle(map.Properties["gravity"]);  float.PARSE ? pfff peut être en fonction de la langue par default.. format() ?
+            friction = 0.37f;
+            
             terrainsTypes = map.Tilesets["tiles"].Terrains
                 .ToDictionary( tileID => tileID.Tile, type => type.Name);
 
             terrainTiles = map.Layers["terrain"].Tiles
                 .ToDictionary(pos => new Vector2(pos.X, pos.Y), gid => gid.Gid );
-            
+            TmxObject player = map.ObjectGroups["player_position"].Objects["player"];
+            playerStartPosition = new Vector2( (float) player.X, (float) player.Y);
+
+            foreach (var enemy in map.ObjectGroups["enemies"].Objects)
+            {
+                switch (enemy.Name)
+                {
+                    case "skeleton":
+                        _enemies.Add(new Skeleton(new Vector2((float) enemy.X, (float) enemy.Y)));
+                        break;
+                 default:
+                     Console.WriteLine("ENI");
+                     break;   
+                }
+            }
         }
 
         private int getGidAt(Vector2 position)
@@ -84,6 +120,7 @@ namespace Platformer.anozer.dmn
             if (terrainsTypes.TryGetValue(highterMiddleGID, out type) ||
                 terrainsTypes.TryGetValue(lowerMiddleGID, out type))
             {
+Console.WriteLine("COLLIDE LEFT");
                 return true;
             }
             
@@ -99,6 +136,8 @@ namespace Platformer.anozer.dmn
             if (terrainsTypes.TryGetValue(highterMiddleGID, out type) ||
                 terrainsTypes.TryGetValue(lowerMiddleGID, out type))
             {
+                
+Console.WriteLine("COLLIDE RIGHT");                
                 return true;
             }
             
@@ -110,13 +149,13 @@ namespace Platformer.anozer.dmn
             //TODO collideTOPLEFT, collideBOTTOMRIGHT 
             //collide bottomCenter 
             int bottomTileGid = getGidAt(new Vector2(topLeftPOS.X + (bottomRightPOS.X - topLeftPOS.X) / 2, bottomRightPOS.Y));
-            int rightTiledGid = getGidAt(new Vector2(topLeftPOS.X + (bottomRightPOS.X - topLeftPOS.X) / 2, bottomRightPOS.Y));
+            int rightTiledGid = getGidAt(new Vector2(bottomRightPOS.X + (bottomRightPOS.X - topLeftPOS.X) / 2, bottomRightPOS.Y));
 
             hasCollidedWall = (direction == Direction.LEFT)
                 ? isCollideLeft(topLeftPOS, bottomRightPOS)
                 : isCollideRight(topLeftPOS, bottomRightPOS);
             
-            
+           
             string type;
             if (terrainsTypes.TryGetValue(bottomTileGid, out type))
             {
@@ -129,15 +168,27 @@ namespace Platformer.anozer.dmn
                         
                     case "descent_left":
                         //TODO left && right, ne colisionner que lorsque que l' on est dans la moitié de l'image affichée !! ( triangle rectangle ?? )
+                        if (terrainsTypes.TryGetValue(getGidAt(new Vector2(topLeftPOS.X, bottomRightPOS.Y)), out type))
+                        {
+                            if (type == "floor")
+                            {
+                                collideType = CollideType.BOTTOM;
+                                break;//TODO ICI POIVRO EN PERMANENCE EN SLIP dois y avoir un soucis dans le change(state) quand en slip..
+                            }
+                        }
                         collideType = CollideType.DESCENT_LEFT;
                         break;
                         
                     case "descent_right":
                         collideType = CollideType.DESCENT_RIGHT;
+                        //TODO check pieddroit
                         break;
                         
-                    case "wall": // TODO floor... wall... un peu la même chose non ?
+                    case "wall": // TODO floor... wall... un peu la même chose non ? -> points de collisions different ?
                         collideType = CollideType.WALL; // TODO et quand tu prend un sol de coté ?? devrai verifier la position de l'impact sur la tuile, pas seulement la tuile !!
+                        break;
+                    case "deadly":
+                        collideType = CollideType.DEADLY;
                         break;
                 }
                 return true;
@@ -148,9 +199,23 @@ namespace Platformer.anozer.dmn
             return false;
         }
         
-        public void update(Vector2 persoPos, Vector2 bottomRight, Direction direction)
+        public void checkCollisions(Vector2 persoPos, Vector2 bottomRight, Direction direction)
         {
             isCollide(persoPos, bottomRight, direction);
+            
+        }
+        
+        public void update(float deltaTime)
+        {
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.update(deltaTime, gravity,friction );
+                checkCollisions(enemy.positionPropertie, enemy.bottomRightPosition, enemy.directionPropertie);
+                if ( hasCollidedFloor || hasCollidedWall)
+                {
+                    enemy.collidedOn(collideType, hasCollidedWall);
+                }
+            }
         }
         
         public void draw(SpriteBatch spriteBatch)
@@ -188,6 +253,11 @@ namespace Platformer.anozer.dmn
                         line++;
                     }
                 }
+            }
+
+            foreach (var enemy in _enemies)
+            {
+                enemy.draw(spriteBatch);
             }
 
         }

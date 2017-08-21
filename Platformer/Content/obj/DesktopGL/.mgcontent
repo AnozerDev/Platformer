@@ -11,5 +11,10 @@
     <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/skeleton/spritesheet_attack_r.png</File>
     <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/tilesets/tiles.png</File>
     <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/fonts/debugFont.spritefont</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/fonts/Docporn.spritefont</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/fonts/Pecita.spritefont</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/character/white_idle.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/character/white_walk.png</File>
+    <File>/home/dinkyd/lab/cSharp/platformer/Platformer/Content/character/white_slide.png</File>
   </SourceFiles>
 </SourceFileCollection>

@@ -29,3 +29,10 @@
 /home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/fonts/arial.xnb
 /home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/fonts/TimeNewRoman.xnb
 /home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/fonts/LiberationSerif.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/fonts/Docporn.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/fonts/doc-porn.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/fonts/Pecita.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/map/map_2.tmx
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/character/white_idle.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/character/white_walk.xnb
+/home/dinkyd/lab/cSharp/platformer/Platformer/bin/DesktopGL/AnyCPU/Debug/Content/character/white_slide.xnb

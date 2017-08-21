@@ -1,21 +1,20 @@
-﻿using System;
-using System.Drawing;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 
-namespace Platformer.anozer.dmn
+namespace Platformer.anozer.dmn.@interface
 {
     public class Ath
     {
 
         private bool debug;
 
-        private string debugString;
+        private string debugString = " ";
         private string backgroundString ="";
+
+        private Vector2 position;
         
         private SpriteFont debugFont;
         private Vector2 debugPosition;
@@ -31,19 +30,22 @@ namespace Platformer.anozer.dmn
             if (debug)
             {
                 debugFont = content.Load<SpriteFont>(fontDirectory + "debugFont");
-                debugPosition = new Vector2(Platformer.WINDOW_WIDTH - 5, 5);
+                position = new Vector2(Platformer.WINDOW_WIDTH - 5, 5);
             }
         }
 
-        public void update(Perso player, Level level)
+        public void update(Personage player, Level level, Vector2 camPosition)
         {
-
+            
             if (debug)
             {
-                debugString = $"State :: {player.getState}, Jumping :: {player.isJumpingPropertie}\n" +
+                debugPosition = camPosition + position;
+                
+                //TODO mettre ça ailleur que dans l' update ? 
+                debugString = $"State :: {player.statePropertie}\n" +
                               $"Pos :: {player.positionPropertie}\n" +
                               $"Collide on :: {level.collideType}\n" +
-                              $"Velocity :: {player.getVelocity}";
+                              $"Velocity :: {player.velocityPropertie}";
                 
                 debugFontOrigin = new Vector2(debugFont.MeasureString(debugString).X,0);
 

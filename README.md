@@ -21,17 +21,20 @@ Decouverte de C# avec MonoGame dans le cadre de la gameJam 8 de gameCodeur.
 - [x] Gerer collision avec decors
 - [x] Revoir le saut ( velocity && gravity)
 
-- [ ] Demarrer à partir d' un menu
+- [x] Demarrer à partir d' un menu( ecran d' acueil)
+- [ ] Option debug au menu ?? ( )
+
 - [ ] Add musique && bruitages
 
 - [ ] \+ si affinité :notes:
-- [ ] Utiliser le sprite humain pour le joueur
+- [x] Utiliser le sprite humain pour le joueur
+- [ ] Reduire la resolution du sprite humain
 - [ ] Ajouter des mobs
+- [ ] Mieux gerer la collision avec les tuiles "DESCENT" ( voir si colision dans la partie de la tuile dessinée, pas sur le dessus imaginaire !)
 
 ###### Refactoring && ameliorations...
-- [ ] __Grosse refonte logique && d' organisation avant toute autre implementation !!__ (--Non c'est pas brouillon ..--)
 
-- [ ] extraire la logique de sprite animé de la classe perso.
+- [x] extraire la logique de sprite animé de la classe perso.
 - [ ] un même spritesheet pour toute les animes du perso.
 - [ ] n' embarquer que les tuiles utiles dans le tileset ( Terrain)
 - [x] trouver un sprite avec une anime de jump.. un platformer qui n'saute pas... bah...
@@ -39,4 +42,11 @@ Decouverte de C# avec MonoGame dans le cadre de la gameJam 8 de gameCodeur.
 - [ ] Pixel perfect pour les collisions.
 - [ ] Mon propre parser XML plutot que de caster des classes existante dans tiedSharp... :fp:
 - [ ] Nettoyer le brin mis en tatonnant sur les collisions :D + class static pour les gerer separement !
-- [ ] Faire une carte plus grande que la fenetre.. la faire defiler avec le joueur
+- [x] Faire une carte plus grande que la fenetre.. la faire defiler avec le joueur
+- [ ] Reduire la taille des tiles
+
+- [ ] Une class pour les Fonts.
+- [ ] Fichier propertie ( xml ??) pour le titre, les path, langues ect.. ( cf creer ton parser !! )
+
+-
+-----------------

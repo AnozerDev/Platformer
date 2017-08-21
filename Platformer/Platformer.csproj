@@ -42,10 +42,19 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-      <Compile Include="anozer\dmn\Ath.cs"/>
+    <Compile Include="anozer\dmn\Cam.cs"/>
+    <Compile Include="anozer\dmn\enemies\Skeleton.cs"/>
+    <Compile Include="anozer\dmn\Enemy.cs"/>
+    <Compile Include="anozer\dmn\interface\Ath.cs"/>
+    <Compile Include="anozer\dmn\interface\GameOver.cs"/>
+    <Compile Include="anozer\dmn\interface\Interface.cs"/>
+    <Compile Include="anozer\dmn\interface\Menu.cs"/>
       <Compile Include="anozer\dmn\Level.cs"/>
-      <Compile Include="anozer\dmn\Menu.cs"/>
     <Compile Include="anozer\dmn\Perso.cs" />
+    <Compile Include="anozer\dmn\Personage.cs"/>
+    <Compile Include="anozer\dmn\Player.cs"/>
+    <Compile Include="anozer\dmn\Resources.cs"/>
+    <Compile Include="anozer\dmn\Sprite.cs"/>
     <Compile Include="Platformer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,10 +124,18 @@
       <None Include="packages.config"/>
   </ItemGroup>
     <ItemGroup>
+      <Content Include="Content\character\white_idle.png"/>
+      <Content Include="Content\character\white_slide.png"/>
+      <Content Include="Content\character\white_walk.png"/>
         <Content Include="Content\fonts\debugFont.spritefont"/>
+      <Content Include="Content\fonts\Docporn.spritefont"/>
+      <Content Include="Content\fonts\Pecita.spritefont"/>
         <Content Include="Content\map\map_1.tmx">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+      <Content Include="Content\map\map_2.tmx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
