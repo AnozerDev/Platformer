@@ -19,8 +19,8 @@ namespace Platformer.anozer.dmn
         
         public void update(Vector2 playerPosition)
         {
-            _position.X = playerPosition.X - Platformer.WINDOW_HEIGHT / 2;
-            _position.Y = playerPosition.Y - Platformer.WINDOW_WIDTH / 2;
+            _position.X = playerPosition.X - Platformer.WINDOW_WIDTH / 2;
+            _position.Y = playerPosition.Y - Platformer.WINDOW_HEIGHT / 2.5f;
 
             if (_position.X < 0)
                 _position.X = 0;

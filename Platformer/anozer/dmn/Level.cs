@@ -205,7 +205,7 @@ Console.WriteLine("COLLIDE RIGHT");
             
         }
         
-        public void update(float deltaTime)
+        public void update(float deltaTime, Vector2 playerPosition)
         {
             foreach (Enemy enemy in _enemies)
             {

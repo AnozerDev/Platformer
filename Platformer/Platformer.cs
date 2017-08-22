@@ -198,7 +198,7 @@ namespace Platformer
                             break;
                         }
                         
-                       level.update(deltaTime); 
+                       level.update(deltaTime, _player.positionPropertie); 
                         
                         level.checkCollisions(_player.positionPropertie, _player.bottomRightPosition, _player.directionPropertie);
                         if (level.hasCollidedFloor || level.hasCollidedWall)

@@ -10,13 +10,14 @@ namespace Platformer.anozer.dmn
         
         protected Enemy(Vector2 position)
         {
-            this.detectDistance = 4f;
+            this.detectDistance = 204f;
             this.position = position;
         }
 
 
         protected bool searchForPlayer(Vector2 player)
         {
+Console.WriteLine("SEAAARCH");            
             return !(Math.Abs(player.X - position.X) > detectDistance);
         }
 
