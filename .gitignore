@@ -1,8 +1,11 @@
 
-/.idea/
-/Platformer/bin/DesktopGL/AnyCPU/Debug/
-/Platformer/obj/Debug/
-/Platformer/Content/skeleton/spritesheet_idle.png
+/.idea/*
+/Platformer/bin/DesktopGL/AnyCPU/Debug/*
+/Platformer/obj/Debug/*
 /Platformer/anozer/dmn/OLD_Perso.cs
 /Platformer/anozer/dmn/Perso.cs
 /Platformer/anozer/dmn/Resources.cs
+/Platformer/Content/character/*
+/Platformer/Content/skeleton/*
+/Platformer/Content/obj/*
+/Platformer/Content/tilesets/*
